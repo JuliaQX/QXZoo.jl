@@ -1,16 +1,13 @@
 module DefaultGates
-include("GateOps.jl")
 
-using .GateOps
+using QuantZoo.GateOps
 
 # %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% #
 #                            Default gate symbols
 # %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% #
 
 module GateSymbols
-    include("GateOps.jl")
-
-    using .GateOps
+    using QuantZoo.GateOps
 
     """Single qubit"""
     σ_x = GateOps.GateSymbol(:x)
@@ -23,7 +20,6 @@ module GateSymbols
     r_σ_z(θ) = GateOps.GateSymbol(Symbol("r_z(" * string(θ) * ")"), Dict("θ"=>θ))
     r_phase(θ) = GateOps.GateSymbol(Symbol("r_ph(" * string(θ) * ")"), Dict("θ"=>θ))
     
-
     """Two qubit"""
     c_σ_x = GateOps.GateSymbol(:c_x)
     c_σ_y = GateOps.GateSymbol(:c_y)
