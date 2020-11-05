@@ -1,8 +1,6 @@
 module GateOps
 
-
 ################################### Exports ###################################
-
 
 export AGate, AGateSymbol, AGateCall
 export GateSymbol, GateCall1, GateCall2, GateCallN, Gate
@@ -18,10 +16,17 @@ abstract type AGateCall <: AGate end
 
 ################################ Gate structs #################################
 
+"Gate label with params. Tracks the gate symbol (:x,:y,:z, etc)"
+struct GateSymbolP <: AGateSymbol
+    label::Symbol
+    params::Union{Nothing, Dict{String, Union{Number, Bool}}}
+    GateSymbolP(label, params) = new(label, params)
+    GateSymbolP(label) = new(label, nothing)
+end
+
 "Gate label. Tracks the gate symbol (:x,:y,:z, etc)"
 struct GateSymbol <: AGateSymbol
     label::Symbol
-    params::Union{Nothing, Dict{String, Union{Number, Bool}}}
     GateSymbol(label) = new(label)
 end
 
@@ -29,7 +34,7 @@ end
 and register label"
 struct GateCall1 <: AGateCall
     gate_label::GateSymbol
-    target::IType
+    target::Integer
     reg::Union{String, Nothing}
     GateCall1P(gate_label, target, reg) = new(gate_label, target, reg)
     GateCall1P(gate_label, target) = new(gate_label, target, nothing)
