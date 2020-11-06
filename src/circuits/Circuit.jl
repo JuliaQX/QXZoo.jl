@@ -1,4 +1,4 @@
-module QuantCircuit
+module Circuit
 
 using QuantZoo.GateOps
 using QuantZoo.CircuitList
@@ -6,45 +6,12 @@ using DataStructures
 
 export append!
 
-# =========================================================================== #
-#                       Gate caching and retrieval
-# =========================================================================== #
-
-
-"""Global gate cache
-
-Since many different circuits may use the same gates, keeping a module-global 
-cache makes sense to avoid recreating them. Each subcircuit can have a subset of 
-the global cache's gates."""
-gate_cache = Dict{GateOps.GateLabel, Matrix{<:Number}}(
-    GateOps.GateLabel(:x)=>([0 1; 1 0].+0im),
-    GateOps.GateLabel(:y)=>([0 -1im; 1im 0]),
-    GateOps.GateLabel(:z)=>([1 0; 0 -1].+0im),
-    GateOps.GateLabel(:h)=>((1/sqrt(2)).*[1 1; 1 -1].+0im),
-)
-
-"""
-    add_to_cache(label::GateOps.GateLabel, mat::Matrix{<:Number})
-
-Adds a mapping between label=>mat for fast retrieval of gates in circuit generation.
-
-# Examples
-```julia-repl
-julia> Circuit.add_to_cache(GateOps.GateLabel(:x), [0 1;1 0].+0im)
-```
-"""
-function add_to_cache(label::GateOps.GateLabel, mat::Matrix{<:Number})
-    if ~haskey(gate_cache, label)
-        gate_cache[label] = mat
-    end
-    return ;
-end
 
 # =========================================================================== #
 #                  Output generation functions
 # =========================================================================== #
 
-function gate_to_str(g::GateOps.GateLabel)
+function gate_to_str(g::GateOps.GateSymbol)
     p=[]
     if g.params != nothing
         p = ["$(k)=$(v)_" for (k,v) in g.params]

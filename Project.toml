@@ -1,0 +1,7 @@
+name = "QuantZoo"
+uuid = "916c88d0-2596-47d5-aee4-6973bc4a0671"
+authors = ["Lee J. O'Riordan <lee.oriordan@ichec.ie>"]
+version = "0.1.0"
+
+[deps]
+LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"

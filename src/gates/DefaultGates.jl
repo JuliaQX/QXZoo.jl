@@ -9,26 +9,33 @@ using QuantZoo.GateOps
 module GateSymbols
     using QuantZoo.GateOps
 
-    """Single qubit"""
-    σ_x = GateOps.GateSymbol(:x)
-    σ_y = GateOps.GateSymbol(:y)
-    σ_z = GateOps.GateSymbol(:z)
-    H = GateOps.GateSymbol(:h)
+    """Projection operators"""
+    p00 = GateOps.GateSymbol(:p00) # |0><0|
+    p10 = GateOps.GateSymbol(:p10) # |1><0|
+    p01 = GateOps.GateSymbol(:p01) # |0><1|
+    p11 = GateOps.GateSymbol(:p11) # |1><1|
 
-    r_σ_x(θ) = GateOps.GateSymbolP(Symbol("r_x(" * string(θ) * ")"), Dict("θ"=>θ))
-    r_σ_y(θ) = GateOps.GateSymbol(Symbol("r_y(" * string(θ) * ")"), Dict("θ"=>θ))
-    r_σ_z(θ) = GateOps.GateSymbol(Symbol("r_z(" * string(θ) * ")"), Dict("θ"=>θ))
+    """Single qubit"""
+    x = GateOps.GateSymbol(:x)
+    y = GateOps.GateSymbol(:y)
+    z = GateOps.GateSymbol(:z)
+    H = GateOps.GateSymbol(:h)
+    I = GateOps.GateSymbol(:I)
+
+    r_x(θ) = GateOps.GateSymbolP(Symbol("r_x(" * string(θ) * ")"), Dict("θ"=>θ))
+    r_y(θ) = GateOps.GateSymbol(Symbol("r_y(" * string(θ) * ")"), Dict("θ"=>θ))
+    r_z(θ) = GateOps.GateSymbol(Symbol("r_z(" * string(θ) * ")"), Dict("θ"=>θ))
     r_phase(θ) = GateOps.GateSymbol(Symbol("r_ph(" * string(θ) * ")"), Dict("θ"=>θ))
     
     """Two qubit"""
-    c_σ_x = GateOps.GateSymbol(:c_x)
-    c_σ_y = GateOps.GateSymbol(:c_y)
-    c_σ_z = GateOps.GateSymbol(:c_z)
+    c_x = GateOps.GateSymbol(:c_x)
+    c_y = GateOps.GateSymbol(:c_y)
+    c_z = GateOps.GateSymbol(:c_z)
     c_H = GateOps.GateSymbol(:c_h)
 
-    c_r_σ_x(θ) = GateOps.GateSymbol(Symbol("c_r_x(" * string(θ) * ")"), Dict("θ"=>θ))
-    c_r_σ_y(θ) = GateOps.GateSymbol(Symbol("c_r_y(" * string(θ) * ")"), Dict("θ"=>θ))
-    c_r_σ_z(θ) = GateOps.GateSymbol(Symbol("c_r_z(" * string(θ) * ")"), Dict("θ"=>θ))
+    c_r_x(θ) = GateOps.GateSymbol(Symbol("c_r_x(" * string(θ) * ")"), Dict("θ"=>θ))
+    c_r_y(θ) = GateOps.GateSymbol(Symbol("c_r_y(" * string(θ) * ")"), Dict("θ"=>θ))
+    c_r_z(θ) = GateOps.GateSymbol(Symbol("c_r_z(" * string(θ) * ")"), Dict("θ"=>θ))
     c_r_phase(θ) = GateOps.GateSymbol(Symbol("c_r_ph(" * string(θ) * ")"), Dict("θ"=>θ))
 end
 
@@ -50,9 +57,9 @@ QuantZoo.GateOps.GateCall1(QuantZoo.GateOps.GateSymbol(:x, nothing), 0, "q")
 """
 function x(q_target::Integer, register::Union{String, Nothing}=nothing)
     if register == nothing
-        return GateOps.GateCall1(GateSymbols.σ_x, q_target)
+        return GateOps.GateCall1(GateSymbols.x, q_target)
     else
-        return GateOps.GateCall1(GateSymbols.σ_x, q_target, register)
+        return GateOps.GateCall1(GateSymbols.x, q_target, register)
     end
 end
 
@@ -70,9 +77,9 @@ QuantZoo.GateOps.GateCall1(QuantZoo.GateOps.GateSymbol(:y, nothing), 0, "q")
 """
 function y(q_target::Int, register::Union{String, Nothing}=nothing)
     if register == nothing
-        return GateOps.GateCall1(GateSymbols.σ_y, q_target)
+        return GateOps.GateCall1(GateSymbols.y, q_target)
     else
-        return GateOps.GateCall1(GateSymbols.σ_y, q_target, register)
+        return GateOps.GateCall1(GateSymbols.y, q_target, register)
     end
 end
 
@@ -90,9 +97,9 @@ QuantZoo.GateOps.GateCall1(QuantZoo.GateOps.GateSymbol(:z, nothing), 0, "q")
 """
 function z(q_target::Int, register::Union{String, Nothing}=nothing)
     if register == nothing
-        return GateOps.GateCall1(GateSymbols.σ_z, q_target)
+        return GateOps.GateCall1(GateSymbols.z, q_target)
     else
-        return GateOps.GateCall1(GateSymbols.σ_z, q_target, register)
+        return GateOps.GateCall1(GateSymbols.z, q_target, register)
     end
 end
 
@@ -153,9 +160,9 @@ GateOps.GateCall1(GateOps.GateSymbol(Symbol("r_x(1.5707963267948966)"), Dict{Str
 """
 function r_x(q_target::Int, theta::Number, register::Union{String, Nothing}=nothing)
     if register == nothing
-        return GateOps.GateCall1(GateSymbols.r_σ_x(theta), q_target )
+        return GateOps.GateCall1(GateSymbols.r_x(theta), q_target )
     else
-        return GateOps.GateCall1(GateSymbols.r_σ_x(theta), q_target, register )
+        return GateOps.GateCall1(GateSymbols.r_x(theta), q_target, register )
     end
 end
 
@@ -173,9 +180,9 @@ GateOps.GateCall1(GateOps.GateSymbol(Symbol("r_y(1.5707963267948966)"), Dict{Str
 """
 function r_y(q_target::Int, theta::Number, register::Union{String, Nothing}=nothing)
     if register == nothing
-        return GateOps.GateCall1(GateSymbols.r_σ_y(theta), q_target )
+        return GateOps.GateCall1(GateSymbols.r_y(theta), q_target )
     else
-        return GateOps.GateCall1(GateSymbols.r_σ_y(theta), q_target, register )
+        return GateOps.GateCall1(GateSymbols.r_y(theta), q_target, register )
     end
 end
 
@@ -192,9 +199,9 @@ GateOps.GateCall1(GateOps.GateSymbol(Symbol("r_z_angle=1.5707963267948966"), Dic
 """
 function r_z(q_target::Int, theta::Number, register::Union{String, Nothing}=nothing)
     if register == nothing
-        return GateOps.GateCall1(GateSymbols.r_σ_z(theta), q_target )
+        return GateOps.GateCall1(GateSymbols.r_z(theta), q_target )
     else
-        return GateOps.GateCall1(GateSymbols.r_σ_z(theta), q_target, register )
+        return GateOps.GateCall1(GateSymbols.r_z(theta), q_target, register )
     end
 end
 
@@ -242,9 +249,9 @@ GateOps.GateCall2(GateOps.GateSymbol(:c_x, nothing), 0, 1, GateOps.GateCall1(Gat
 """
 function c_x(q_target::Int, q_ctrl::Int, register::Union{String, Nothing}=nothing)
     if register == nothing
-        return GateCall2( GateSymbols.c_σ_x, q_target, q_ctrl, GateSymbols.σ_x )
+        return GateCall2( GateSymbols.c_x, q_target, q_ctrl, GateSymbols.x )
     else
-        return GateCall2( GateSymbols.c_σ_x, q_target, q_ctrl, GateSymbols.σ_x, register )
+        return GateCall2( GateSymbols.c_x, q_target, q_ctrl, GateSymbols.x, register )
     end
 end
 
@@ -261,9 +268,9 @@ GateOps.GateCall2(GateOps.GateSymbol(:c_y, nothing), 0, 1, GateOps.GateCall1(Gat
 """
 function c_y(q_target::Int, q_ctrl::Int, register::Union{String, Nothing}=nothing)
     if register == nothing
-        return GateCall2( GateSymbols.c_σ_y, q_target, q_ctrl, GateSymbols.σ_y )
+        return GateCall2( GateSymbols.c_y, q_target, q_ctrl, GateSymbols.y )
     else
-        return GateCall2( GateSymbols.c_σ_y, q_target, q_ctrl, GateSymbols.σ_y, register )
+        return GateCall2( GateSymbols.c_y, q_target, q_ctrl, GateSymbols.y, register )
     end
 end
 
@@ -280,9 +287,9 @@ GateOps.GateCall2(GateOps.GateSymbol(:c_z, nothing), 0, 1, GateOps.GateCall1(Gat
 """
 function c_z(q_target::Int, q_ctrl::Int, register::Union{String, Nothing}=nothing)
     if register == nothing
-        return GateCall2( GateSymbols.c_σ_z, q_target, q_ctrl, GateSymbols.σ_z )
+        return GateCall2( GateSymbols.c_z, q_target, q_ctrl, GateSymbols.z )
     else
-        return GateCall2( GateSymbols.c_σ_z, q_target, q_ctrl, GateSymbols.σ_z, register )
+        return GateCall2( GateSymbols.c_z, q_target, q_ctrl, GateSymbols.z, register )
     end
 end
 
@@ -314,7 +321,7 @@ end
 """
     c_r_x(q_target::Int, q_ctrl::Int, theta::Real, register::Union{String, Nothing}=nothing)
 
-Generate a controlled rotation about x (exp(iθσ_x/2)) GateCall (GateCall2), controlled on the index `q_ctrl` applied to the target `q_target` (on given register, if provided).
+Generate a controlled rotation about x (exp(iθx/2)) GateCall (GateCall2), controlled on the index `q_ctrl` applied to the target `q_target` (on given register, if provided).
 
 # Examples
 ```julia-repl
@@ -333,7 +340,7 @@ end
 """
     c_r_y(q_target::Int, q_ctrl::Int, theta::Real, register::Union{String, Nothing}=nothing)
 
-Generate a controlled rotation about y (exp(iθσ_y/2)) GateCall (GateCall2), controlled on the index `q_ctrl` applied to the target `q_target` (on given register, if provided).
+Generate a controlled rotation about y (exp(iθy/2)) GateCall (GateCall2), controlled on the index `q_ctrl` applied to the target `q_target` (on given register, if provided).
 
 # Examples
 ```julia-repl
@@ -352,7 +359,7 @@ end
 """
     c_r_z(q_target::Int, q_ctrl::Int, theta::Real, register::Union{String, Nothing}=nothing)
 
-Generate a controlled rotation about z (exp(iθσ_z/2)) GateCall (GateCall2), controlled on the index `q_ctrl` applied to the target `q_target` (on given register, if provided).
+Generate a controlled rotation about z (exp(iθz/2)) GateCall (GateCall2), controlled on the index `q_ctrl` applied to the target `q_target` (on given register, if provided).
 
 # Examples
 ```julia-repl
