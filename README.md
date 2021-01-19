@@ -1,4 +1,4 @@
-# QuantZoo.jl
+# QXZoo.jl
 
 Circuit composition and translation package for QuantEx project.
 Creates a backend-agnostic algorithm and circuit composition framework,
@@ -9,15 +9,15 @@ Integrates with QuantTN.jl to perform full end-to-end demonstrations
 of quantum circuit simulation as part of the QuantEx project.
 
 ## Installation
-[TODO] QuantZoo.jl is activated in the same manner as PicoQuant.jl, where the 
+[TODO] QXZoo.jl is activated in the same manner as PicoQuant.jl, where the 
 following instructions will mirror the details provided there.
 
 The prototype comes in the form of a Julia package which is targeted to versions
 of Julia from v1.5 on. Binaries and source for this can be downloaded from
 [https://julialang.org/](https://julialang.org/).
 
-Once installed, from the Julia REPL prompt navigate to the QuantZoo.jl folder
-and activate the environment, instantiate it and then build QuantZoo.jl.
+Once installed, from the Julia REPL prompt navigate to the QXZoo.jl folder
+and activate the environment, instantiate it and then build QXZoo.jl.
 This should install dependencies specified in the `Project.toml` and
 `Manifest.toml` files as well as carry out any package specific build tasks
 detailed in `deps/build.jl`. To use a custom python environment see the section
@@ -26,7 +26,7 @@ below on using different python environments.
 ```
 ]activate .
 ]instantiate
-]build QuantZoo
+]build QXZoo
 ```
 
 ## Running the unittests
