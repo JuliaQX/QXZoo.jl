@@ -1,0 +1,6 @@
+include("ncu.jl")
+include("oracle.jl")
+include("diffusion.jl")
+include("grover.jl")
+include("qft.jl")
+include("rqc.jl")

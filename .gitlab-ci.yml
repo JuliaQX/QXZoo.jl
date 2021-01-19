@@ -1,47 +1,25 @@
----
-# This is an example .gitlab-ci.yml file to test (and optionally report the
-# coverage
-# results of) your [Julia][1] packages. Please refer to the [documentation][2]
-# for more information about package development in Julia.
-#
-# Here, it is assumed that your Julia package is named `MyPackage`. Change it to
-# whatever name you have given to your package.
-#
-# [1]: http://julialang.org/
-# [2]: https://docs.julialang.org/en/v1/manual/documentation/index.html
-
-
-# Below is the template to run your tests in Julia
-.test_template: &test_definition
-  # Uncomment below if you would like to run the tests on specific references
-  # only, such as the branches `master`, `development`, etc.
-  # only:
-  #   - master
-  #   - development
-  before_script:
-    - apt-get update -qq && apt-get install -y -qq gcc
-    - cp test/arch/x86_64/Manifest.toml .
-    - julia -e "import Pkg; Pkg.add(\"PyCall\")"
-    - $(julia -e "using PyCall; println(PyCall.python)") -m pip install qiskit
+.script:
   script:
-    # Let's run the tests. Substitute `coverage = false` below, if you do not
-    # want coverage results.
-    - julia -e 'using Pkg; Pkg.add("PicoQuant"); 
-        Pkg.add(PackageSpec(path=pwd())); 
-        Pkg.instantiate(); 
-        Pkg.build("QuantZoo"); 
-        Pkg.test("QuantZoo"; coverage = true)'
-    # Comment out below if you do not want coverage results.
-    - julia -e 'using Pkg; Pkg.add("Coverage");
-      import QuantZoo; cd(joinpath(dirname(pathof(QuantZoo)), ".."));
-      using Coverage; cl, tl = get_summary(process_folder());
-      println("(", cl/tl*100, "%) covered")'
-
-# Name a test and select an appropriate image.
-# images comes from Docker hub
-
-test:1.5:
+    - |
+      julia --project=@. -e '
+        using Pkg
+        Pkg.build()
+        Pkg.test(coverage=true)'
+.coverage:
+  coverage: /Test coverage (\d+\.\d+%)/
+  after_script:
+    - |
+      julia -e '
+        using Pkg
+        Pkg.add("Coverage")
+        using Coverage
+        c, t = get_summary(process_folder())
+        using Printf
+        @printf "Test coverage %.2f%%\n" 100c / t'
+Julia 1.5:
+  image: julia:1.5
   tags:
     - docker
-  image: julia:1.5
-  <<: *test_definition
+  extends:
+    - .script
+    - .coverage

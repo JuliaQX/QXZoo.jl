@@ -3,7 +3,7 @@ using Documenter, QuantExQASM
 makedocs(
     modules = [QuantExQASM],
     clean = false,
-    sitename = "QuantZoo.jl",
+    sitename = "QXZoo.jl",
     pages = Any[
         "Home" => "index.md",
         #"Tutorial" => "tutorial.md",
@@ -15,5 +15,5 @@ makedocs(
     ]
 )
 deploydocs(
-    repo = "github.com/ICHEC/QuantZoo.jl.git",
+    repo = "github.com/ICHEC/QXZoo.jl.git",
 )
