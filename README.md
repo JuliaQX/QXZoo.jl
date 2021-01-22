@@ -1,16 +1,22 @@
-# QXZoo.jl
+# QXZoo
+
+[![Stable](https://img.shields.io/badge/docs-stable-blue.svg)](https://JuliaQX.github.io/QXZoo.jl/stable)
+[![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://JuliaQX.github.io/QXZoo.jl/dev)
+[![Build Status](https://github.com/JuliaQX/QXZoo.jl/workflows/CI/badge.svg)](https://github.com/JuliaQX/QXZoo.jl/actions)
+[![Build Status](https://github.com/JuliaQX/QXZoo.jl/badges/master/pipeline.svg)](https://github.com/JuliaQX/QXZoo.jl/pipelines)
+[![Coverage](https://github.com/JuliaQX/QXZoo.jl/badges/master/coverage.svg)](https://github.com/JuliaQX/QXZoo.jl/commits/master)
+[![Coverage](https://codecov.io/gh/JuliaQX/QXZoo.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/JuliaQX/QXZoo.jl)
+
 
 Circuit composition and translation package for QuantEx project.
 Creates a backend-agnostic algorithm and circuit composition framework,
 which can subsequently be used to generate quantum algorithm representations
 for running on a variety of different backends.
 
-Integrates with QuantTN.jl to perform full end-to-end demonstrations
+Integrates with QXRun.jl to perform full end-to-end demonstrations
 of quantum circuit simulation as part of the QuantEx project.
 
 ## Installation
-[TODO] QXZoo.jl is activated in the same manner as PicoQuant.jl, where the 
-following instructions will mirror the details provided there.
 
 The prototype comes in the form of a Julia package which is targeted to versions
 of Julia from v1.5 on. Binaries and source for this can be downloaded from
@@ -31,7 +37,7 @@ below on using different python environments.
 
 ## Running the unittests
 
-Unittests can be run from the QuantExQASM root folder with
+Unittests can be run from the QXZoo root folder with
 
 ```
 julia --project=. tests/runtests.jl

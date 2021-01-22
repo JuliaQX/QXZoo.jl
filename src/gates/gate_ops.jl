@@ -21,11 +21,11 @@ struct GateSymbolP <: AGateSymbol
     label::Symbol
     rt_depth::Int
     is_adj::Bool
-    params::Dict{String, Number}
-    GateSymbolP(label, rt_depth, is_adj, params) = new(label, rt_depth, is_adj, params)
-    GateSymbolP(label, rt_depth, is_adj) = new(label, rt_depth, is_adj, Dict{String, Number})
-    GateSymbolP(label, rt_depth) = new(label, rt_depth, false, Dict{String, Number})
-    GateSymbolP(label) = new(label, 0, false, Dict{String, Number})
+    param::Number
+    GateSymbolP(label, rt_depth, is_adj, param) = new(label, rt_depth, is_adj, param)
+    GateSymbolP(label, rt_depth, is_adj) = new(label, rt_depth, is_adj, 0)
+    GateSymbolP(label, rt_depth) = new(label, rt_depth, false, 0)
+    GateSymbolP(label) = new(label, 0, false, 0)
 end
 
 "Gate label. Tracks the gate symbol (:x,:y,:z, etc)"
@@ -77,7 +77,6 @@ struct GateCallN <: AGateCall
     GateCallN(gate_symbol, ctrl, target) = 
     new(gate_symbol, ctrl, target, nothing)
 end
-
 
 """
 Wrap of Matrix to fit type system hierarchy

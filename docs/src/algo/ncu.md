@@ -7,54 +7,64 @@ The general principle follows the work of Barenco *et al.*, Phys. Rev. A 52, 345
 ## API
 
 ```@docs
-QuantExQASM.NCU.apply_ncu!(circuit::QuantExQASM.Circuit.Circ, q_ctrl::Vector, q_aux::Vector, q_tgt, U::QuantExQASM.GateOps.GateLabel)
-QuantExQASM.NCU.init_intermed_gates(circ::QuantExQASM.Circuit.Circ, num_ctrl::Union{Nothing, Int})
-QuantExQASM.NCU.register_gate(circ::QuantExQASM.Circuit.Circ, U::QuantExQASM.GateOps.GateLabel, gate::Matrix{<:Number})
-QuantExQASM.NCU.gen_intermed_gates(ctrl_depth::Int, U::QuantExQASM.GateOps.GateLabel)
-QuantExQASM.NCU.get_intermed_gate(U::QuantExQASM.GateOps.GateLabel)
-QuantExQASM.NCU.apply_cx!(c::QuantExQASM.Circuit.Circ, ctrl, tgt, reg)
-QuantExQASM.NCU.apply_cu!(c::QuantExQASM.Circuit.Circ, ctrl, tgt, reg, gl::QuantExQASM.GateOps.GateLabel)
+QXZoo.NCU.apply_ncu!(circuit::QXZoo.Circuit.Circ, q_ctrl::Vector, q_aux::Vector, q_tgt, U::QXZoo.GateOps.GateSymbol)
+QXZoo.NCU.init_intermed_gates(circ::QXZoo.Circuit.Circ, num_ctrl::Union{Nothing, Int})
+QXZoo.NCU.register_gate(circ::QXZoo.Circuit.Circ, U::QXZoo.GateOps.GateSymbol, gate_f::Function)
+QXZoo.NCU.gen_intermed_gates(ctrl_depth::Int, U::QXZoo.GateOps.GateSymbol)
+QXZoo.NCU.get_intermed_gate(U::QXZoo.GateOps.GateSymbol)
 ```
 
 ## Example 
-To use the NCU module, we provide example code below to apply an n-controlled Pauli Z gate using either the optimised or unoptimised (quadratic) decomposition routines.
+To use the NCU module, we provide example code below to apply an n-controlled Pauli Z gate using either the unoptimised (quadratic) or optimised (linear) decomposition routines.
 
+### Default NCU with 3CU optimisation 
 ```@example
-using QuantExQASM
+using QXZoo
 
 # Set 5-qubit limit on circuit
-num_qubits = 5
-
-# Do not use optimised routines
-use_aux_qubits = false
+num_qubits = 10
 
 # Create Pauli-Z gate-label for application
-gl = QuantExQASM.GateOps.GateLabel(:z)
+gate_z = QXZoo.DefaultGates.GateSymbols.z
 
 # Create empty circuit with qiven qubit count
-cct = QuantExQASM.Circuit.Circ(num_qubits)
+cct = QXZoo.Circuit.Circ(num_qubits)
 
-# Initialise default intermediate gates (X,Y,Z,H) for use in NCU
-QuantExQASM.NCU.init_intermed_gates(cct, num_qubits-1)
-
-U = QuantExQASM.Circuit.gate_cache[gl]
-
-if use_aux_qubits == true && (num_qubits/2+1 >= 4)
-    ctrl = collect(0:Int( floor((num_qubits-1)//2) ))
-    aux = collect(1 + Int( floor((num_qubits-1)//2)):num_qubits-2)
-    tgt = num_qubits-1
-else
-    ctrl = collect(0:num_qubits-2)
-    aux = Int[]
-    tgt = num_qubits-1
-end
+ctrl = collect(range(0, length=num_qubits-1  ) ) 
+aux = []
+tgt = num_qubits-1
 
 for i in ctrl
-    QuantExQASM.Circuit.add_gatecall!(cct, QuantExQASM.GateOps.pauli_x(i) )
+    QXZoo.Circuit.add_gatecall!(cct, QXZoo.DefaultGates.x(i) )
 end
 
-QuantExQASM.NCU.apply_ncu!(cct, ctrl, aux, tgt, gl);
+QXZoo.NCU.apply_ncu!(cct, ctrl, aux, tgt, gate_z)
 
 # Number of generation gate-call operations
-println(cct.circ_ops.len)
+println(cct)
+```
+
+### Auxiliary optimised NCU
+
+```@example
+# Auxiliary-assisted NCU
+
+using QXZoo
+
+# 19 qubit aux-optimised matches 10 qubit unoptimised.
+num_qubits = 19
+
+cct = QXZoo.Circuit.Circ(num_qubits)
+
+ctrl = collect(range(0, length=convert(Int, (num_qubits+1)/2  ))) 
+aux =  collect(range( convert(Int, (num_qubits+1)/2+1), stop=num_qubits-1))
+tgt = convert(Int, maximum(ctrl)+1 )
+
+for i in ctrl
+    cct << QXZoo.DefaultGates.x(i)
+end
+
+QXZoo.NCU.apply_ncu!(cct, ctrl, aux, tgt, QXZoo.GateOps.GateSymbol(:z))
+
+println(cct)
 ```
