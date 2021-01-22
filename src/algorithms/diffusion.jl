@@ -10,7 +10,7 @@ using QXZoo.DefaultGates
 
 Application of the Grover diffusion operator to marked register.
 """
-function apply_diffusion(cct::Circuit.Circ, ctrl_indices::Vector, tgt_index)
+function apply_diffusion!(cct::Circuit.Circ, ctrl_indices::Vector, tgt_index)
     aux_idx = typeof(ctrl_indices)()
 
     for ctrl in vcat(ctrl_indices, tgt_index)
@@ -31,7 +31,7 @@ end
 
 Application of the Grover diffusion operator to marked register. Uses additionally provided auxiliary qubits to reduce depth.
 """
-function apply_diffusion(cct::Circuit.Circ, ctrl_indices::Vector, aux_indices::Vector, tgt_index)
+function apply_diffusion!(cct::Circuit.Circ, ctrl_indices::Vector, aux_indices::Vector, tgt_index)
 
     for ctrl in vcat(ctrl_indices, tgt_index)
         Circuit.add_gatecall!(cct, DefaultGates.h(ctrl) )

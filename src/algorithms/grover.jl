@@ -33,7 +33,7 @@ end
 Applies a single Grover iteration. To be used following `mark_state!`
 """
 function apply_grover_iteration!(cct::Circuit.Circ, qubit_indices::Vector)
-    return Diffusion.apply_diffusion(cct, qubit_indices[1:end-1], qubit_indices[end])
+    return Diffusion.apply_diffusion!(cct, qubit_indices[1:end-1], qubit_indices[end])
 end
 
 """
@@ -42,7 +42,7 @@ end
 Applies a single Grover iteration. To be used following `mark_state!`
 """
 function apply_grover_iteration!(cct::Circuit.Circ, qubit_indices::Vector, qubit_aux_indices::Vector)
-    return Diffusion.apply_diffusion(cct, qubit_indices[1:end-1], qubit_aux_indices, qubit_indices[end])
+    return Diffusion.apply_diffusion!(cct, qubit_indices[1:end-1], qubit_aux_indices, qubit_indices[end])
 end
 
 """
@@ -51,7 +51,7 @@ end
 Applies the state marking procedure of the Grover iteration.
 """
 function mark_state!(cct::Circuit.Circ, state::Integer, qubit_indices::Vector)
-    return Oracle.bitstring_phase_oracle(cct::Circuit.Circ, state, qubit_indices[1:end-1], qubit_indices[end])
+    return Oracle.bitstring_phase_oracle!(cct::Circuit.Circ, state, qubit_indices[1:end-1], qubit_indices[end])
 end
 
 """
@@ -60,7 +60,7 @@ end
 Applies the state marking procedure of the Grover iteration.
 """
 function mark_state!(cct::Circuit.Circ, state::Integer, qubit_indices::Vector, qubit_aux_indices::Vector)
-    return Oracle.bitstring_phase_oracle(cct::Circuit.Circ, state, qubit_indices[1:end-1], qubit_aux_indices, qubit_indices[end])
+    return Oracle.bitstring_phase_oracle!(cct::Circuit.Circ, state, qubit_indices[1:end-1], qubit_aux_indices, qubit_indices[end])
 end
 
 

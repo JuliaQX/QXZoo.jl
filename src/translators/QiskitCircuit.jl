@@ -43,11 +43,11 @@ function get_qasm_gateset(circ::Circ)
 end
 
 """
-    gatelabel_to_qasm(gl::GateOps.GateLabel)
+    gatelabel_to_qasm(gl::GateOps.GateSymbol)
 
-Defines an OpenQASM gate from the given GateLabel and matched matrix
+Defines an OpenQASM gate from the given GateSymbol and matched matrix
 """
-function gatelabel_to_qasm(gl::GateOps.GateLabel)
+function gatelabel_to_qasm(gl::GateOps.GateSymbol)
     if String(gl.label) in ["c_x", "x", "y", "z", "h"]
         return "\n"
     end
