@@ -44,7 +44,7 @@ end
 
 function RQC_DS(n::Int, m::Int)
     RQC_DS(n, m, Circuit.Circ(n*m), -ones(Int, n, m),
-        Dict(1=>DefaultGates.GateSymbols.t, 2=>DefaultGates.GateSymbols.x, 3=>DefaultGates.GateSymbols.y))
+        Dict(1=>DefaultGates.GateSymbols.t, 2=>sqrt(DefaultGates.GateSymbols.x), 3=>sqrt(DefaultGates.GateSymbols.y)) )
 end
 
 """
