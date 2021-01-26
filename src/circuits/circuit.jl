@@ -97,12 +97,16 @@ julia> circ << GateOps.x(4) #Apply Paulix to qubit index 4
 """
 function add_gatecall!(circ::Circ, gc::GateOps.AGateCall)
     if ~haskey(GateMap.gates, gc.gate_symbol)
+
         if (typeof(gc.gate_symbol) == GateOps.GateSymbolP) && (isdefined(GateMap, gc.gate_symbol.label) )
             GateMap.cache_gate!(gc.gate_symbol, ()->getproperty(GateMap, gc.gate_symbol.label)(gc.gate_symbol.param) )
-        elseif ~haskey(GateMap.gates, GateOps.GateSymbol(gc.gate_symbol.label, 0, false) ) && (gc.gate_symbol.rt_depth != 0)
-            GateMap.cache_gate!(gc.gate_symbol, ()->GateMaps.gates[GateSymbol(gc.gate_symbol.label, 0, false)]()^(1/2^(gc.gate_symbol.rt_depth)) )
-        elseif ~haskey(GateMap.gates, GateOps.GateSymbol(gc.gate_symbol.label, gc.gate_symbol.rt_depth, false) ) #handle non-param adjoint gates
-            GateMap.cache_gate!(gc.gate_symbol, ()->adjoint(GateMaps.gates[GateOps.GateSymbol(gc.gate_symbol.label, gc.gate_symbol.rt_depth, false)]()) )
+
+        elseif haskey(GateMap.gates, GateOps.GateSymbol(gc.gate_symbol.label, 0, false) ) && (gc.gate_symbol.rt_depth != 0)
+            GateMap.cache_gate!(gc.gate_symbol, ()->GateMap.gates[GateSymbol(gc.gate_symbol.label, 0, false)]()^(1/2^(gc.gate_symbol.rt_depth)) )
+
+        elseif haskey(GateMap.gates, GateOps.GateSymbol(gc.gate_symbol.label, gc.gate_symbol.rt_depth, false) ) && (gc.gate_symbol.is_adj == true) #handle non-param adjoint gates
+            GateMap.cache_gate!(gc.gate_symbol, ()->adjoint(GateMap.gates[GateOps.GateSymbol(gc.gate_symbol.label, gc.gate_symbol.rt_depth, false)]()) )
+
         else
             error("Gate $(gc.gate_symbol.label) not registered")
         end
