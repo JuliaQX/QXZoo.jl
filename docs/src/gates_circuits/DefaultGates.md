@@ -13,6 +13,8 @@ QXZoo.DefaultGates.x(q_target::Int)
 QXZoo.DefaultGates.y(q_target::Int)
 QXZoo.DefaultGates.z(q_target::Int)
 QXZoo.DefaultGates.h(q_target::Int)
+QXZoo.DefaultGates.s(q_target::Int)
+QXZoo.DefaultGates.t(q_target::Int)
 ```
 
 ### Single Qubit Gates: rotation and arbitrary
