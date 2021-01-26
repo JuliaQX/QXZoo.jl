@@ -87,5 +87,9 @@ struct Gate <: AGate
 end
 
 ###############################################################################
+#                                  Utilities
+###############################################################################
+Base.:sqrt(gs::GateSymbol) = GateSymbol(gs.label, gs.rt_depth+1, gs.is_adj)
+Base.:adjoint(gs::GateSymbol) = GateSymbol(gs.label, gs.rt_depth, ~gs.is_adj)
 
 end

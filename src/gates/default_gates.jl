@@ -23,6 +23,8 @@ module GateSymbols
     y = GateOps.GateSymbol(:y)
     z = GateOps.GateSymbol(:z)
     H = GateOps.GateSymbol(:h)
+    s = GateOps.GateSymbol(:z, 1, false)
+    t = GateOps.GateSymbol(:z, 2, false)
     I = GateOps.GateSymbol(:I)
 
     r_x(θ) = GateOps.GateSymbolP(:r_x, 0, false, θ)
@@ -109,6 +111,40 @@ function h(q_target::Int)
     return GateOps.GateCall1(GateSymbols.H, q_target)
 end
 
+
+"""
+    s(q_target::Int)
+
+Generate a single qubit S GateCall (GateCall1) applied to the 
+target qubit (s == sqrt(z))
+
+# Examples
+```julia-repl
+julia> QXZoo.DefaultGates.s(0)
+QXZoo.GateOps.GateCall1(QXZoo.GateOps.GateSymbol(:z, 1, false), 0)
+```
+"""
+function s(q_target::Int)
+    return GateOps.GateCall1(GateSymbols.s, q_target)
+end
+
+"""
+    s(q_target::Int)
+
+Generate a single qubit T GateCall (GateCall1) applied to the 
+target qubit (t == sqrt(s))
+
+# Examples
+```julia-repl
+julia> QXZoo.DefaultGates.t(0)
+QXZoo.GateOps.GateCall1(QXZoo.GateOps.GateSymbol(:z, 2, false), 0)
+```
+"""
+function t(q_target::Int)
+    return GateOps.GateCall1(GateSymbols.t, q_target)
+end
+
+
 # %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% #
 
 """
@@ -139,7 +175,7 @@ QXZoo.GateOps.GateCall1(QXZoo.GateOps.GateSymbol(:mygate, 0, false), 0)
 ```
 """
 function u(label::String, q_target::Int)
-    return GateOps.GateCall1( QXZoo.GateOps.GateSymbol(Symbol(label)), q_target)
+    return GateOps.GateCall1( GateOps.GateSymbol(Symbol(label)), q_target)
 end
 
 # %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% #

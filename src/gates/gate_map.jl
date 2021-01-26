@@ -46,6 +46,7 @@ function init_cache() #gates::Dict{Union{<:GateOps.AGateSymbol, Function}, Funct
     push!(gates, DefaultGates.GateSymbols.x => x)
     push!(gates, DefaultGates.GateSymbols.y => y)
     push!(gates, DefaultGates.GateSymbols.z => z)
+
     push!(gates, DefaultGates.GateSymbols.c_x => c_x)
     push!(gates, DefaultGates.GateSymbols.c_y => c_y)
     push!(gates, DefaultGates.GateSymbols.c_z => c_z)
@@ -57,6 +58,9 @@ function init_cache() #gates::Dict{Union{<:GateOps.AGateSymbol, Function}, Funct
     push!(gates, DefaultGates.GateSymbols.c_r_y => c_r_y)
     push!(gates, DefaultGates.GateSymbols.c_r_z => c_r_z)
     push!(gates, DefaultGates.GateSymbols.c_r_phase => c_r_phase)
+
+    push!(gates, DefaultGates.GateSymbols.s => s )
+    push!(gates, DefaultGates.GateSymbols.t => t )
     return ;
 end
 
@@ -386,6 +390,40 @@ julia> QXZoo.GateMap.I()
 """
 function I()::SArray{Tuple{2,2},Complex{Float64},2,4}
     return SMatrix{2,2}(LinearAlgebra.I(2))
+end
+
+"""
+    s()::SArray{Tuple{2,2},Complex{Float64},2,4}
+
+Function which generates the S gate (sqrt(Z)).
+
+# Examples
+```julia-repl
+julia> QXZoo.GateMap.s()
+2×2 StaticArrays.SArray{Tuple{2,2},Complex{Float64},2,4} with indices SOneTo(2)×SOneTo(2):
+ 1.0+0.0im  0.0+0.0im
+ 0.0+0.0im  0.0+1.0im
+```
+"""
+function s()::SArray{Tuple{2,2},Complex{Float64},2,4}
+    return sqrt(z())
+end
+
+"""
+    t()::SArray{Tuple{2,2},Complex{Float64},2,4}
+
+Function which generates the T gate (sqrt(S)).
+
+# Examples
+```julia-repl
+julia> QXZoo.GateMap.t()
+2×2 StaticArrays.SArray{Tuple{2,2},Complex{Float64},2,4} with indices SOneTo(2)×SOneTo(2):
+ 1.0+0.0im       0.0+0.0im
+ 0.0+0.0im  0.707107+0.707107im
+```
+"""
+function t()::SArray{Tuple{2,2},Complex{Float64},2,4}
+    return sqrt(s())
 end
 
 # =========================================================================== #
