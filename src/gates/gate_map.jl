@@ -54,6 +54,7 @@ function init_cache() #gates::Dict{Union{<:GateOps.AGateSymbol, Function}, Funct
     push!(gates, DefaultGates.GateSymbols.r_y => r_y)
     push!(gates, DefaultGates.GateSymbols.r_z => r_z)
     push!(gates, DefaultGates.GateSymbols.r_phase => r_phase)
+    
     push!(gates, DefaultGates.GateSymbols.c_r_x => c_r_x)
     push!(gates, DefaultGates.GateSymbols.c_r_y => c_r_y)
     push!(gates, DefaultGates.GateSymbols.c_r_z => c_r_z)
@@ -388,8 +389,8 @@ julia> QXZoo.GateMap.I()
  0.0+0.0im  1.0+0.0im
 ```
 """
-function I()::SArray{Tuple{2,2},Complex{Float64},2,4}
-    return SMatrix{2,2}(LinearAlgebra.I(2))
+function I()::Diagonal{Complex{Float64},SArray{Tuple{2},Complex{Float64},1,2}}
+    return StaticArrays.SDiagonal(1.0+0im,1.0+0im)
 end
 
 """
@@ -516,6 +517,7 @@ julia> QXZoo.GateMap.c_x()
 function c_x()::SArray{Tuple{4,4},Complex{Float64},2,16}
     return kron(p00(), I()) + kron(p11(), x())
 end
+
 """
     c_y()::SArray{Tuple{4,4},Complex{Float64},2,16}
 
@@ -534,6 +536,7 @@ julia> QXZoo.GateMap.c_y()
 function c_y()::SArray{Tuple{4,4},Complex{Float64},2,16}
     return kron(p00(), I()) + kron(p11(), y())
 end
+
 """
     c_z()::SArray{Tuple{4,4},Complex{Float64},2,16}
 
@@ -574,6 +577,7 @@ julia> QXZoo.GateMap.c_r_x(pi/3)
 function c_r_x(θ::Number)::SArray{Tuple{4,4},Complex{Float64},2,16}
     return kron(p00(), I()) + kron(p11(), r_x(θ)) 
 end
+
 """
     c_r_y(θ::Number)::SArray{Tuple{4,4},Complex{Float64},2,16}
 
