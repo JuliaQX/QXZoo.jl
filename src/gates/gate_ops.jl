@@ -3,7 +3,7 @@ module GateOps
 ################################### Exports ###################################
 
 export AGate, AGateSymbol, AGateCall
-export GateSymbol, GateCall1, GateCall2, GateCallN, Gate
+export GateSymbol, GateSymbolP, GateCall1, GateCall2, GateCallN, Gate
 
 ################################ Abstract types ###############################
 

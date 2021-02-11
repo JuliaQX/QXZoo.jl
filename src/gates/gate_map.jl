@@ -42,7 +42,7 @@ function init_cache() #gates::Dict{Union{<:GateOps.AGateSymbol, Function}, Funct
     push!(gates, DefaultGates.GateSymbols.p01 => p01)
     push!(gates, DefaultGates.GateSymbols.p11 => p11)
     push!(gates, DefaultGates.GateSymbols.I => I)
-    push!(gates, DefaultGates.GateSymbols.H => h)
+    push!(gates, DefaultGates.GateSymbols.h => h)
     push!(gates, DefaultGates.GateSymbols.x => x)
     push!(gates, DefaultGates.GateSymbols.y => y)
     push!(gates, DefaultGates.GateSymbols.z => z)
@@ -54,7 +54,7 @@ function init_cache() #gates::Dict{Union{<:GateOps.AGateSymbol, Function}, Funct
     push!(gates, DefaultGates.GateSymbols.r_y => r_y)
     push!(gates, DefaultGates.GateSymbols.r_z => r_z)
     push!(gates, DefaultGates.GateSymbols.r_phase => r_phase)
-    
+
     push!(gates, DefaultGates.GateSymbols.c_r_x => c_r_x)
     push!(gates, DefaultGates.GateSymbols.c_r_y => c_r_y)
     push!(gates, DefaultGates.GateSymbols.c_r_z => c_r_z)
@@ -84,10 +84,8 @@ function create_gate_1q(gate_label::String, gen_func::Function)
     mat2x2 = nothing
     if applicable(gen_func, pi/2)
         mat2x2 = gen_func(pi/2)
-        println("Parametric gate verified with arg=pi/2: $mat2x2")
     else
         mat2x2 = gen_func()
-        println("Static gate verified: $mat2x2")
     end
     if size(mat2x2) != (2,2)
         error("Please ensure generated matrix is 2x2")
@@ -148,10 +146,8 @@ function create_gate_2q(gate_label::String, gen_func::Function)
     mat4x4 = nothing
     if applicable(gen_func, pi/2)
         mat4x4 = gen_func(pi/2)
-        println("Parametric gate verified with arg=pi/2: $mat4x4")
     else
         mat4x4 = gen_func()
-        println("Static gate verified: $mat4x4")
     end
     if size(mat4x4) != (4,4)
         error("Please ensure generated matrix is 4x4")

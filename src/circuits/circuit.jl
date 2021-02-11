@@ -96,6 +96,12 @@ julia> circ << GateOps.x(4) #Apply Paulix to qubit index 4
 ```
 """
 function add_gatecall!(circ::Circ, gc::GateOps.AGateCall)
+    if circ.num_qubits < gc.target
+        error("Target is outside qubit register range")
+    end
+    if gc isa GateOps.GateCall2 && circ.num_qubits < gc.ctrl
+        error("Ctrl is outside qubit register range")
+    end
     if ~haskey(GateMap.gates, gc.gate_symbol)
 
         if (typeof(gc.gate_symbol) == GateOps.GateSymbolP) && (isdefined(GateMap, gc.gate_symbol.label) )
@@ -127,32 +133,6 @@ function Base.push!(circ::Circ, gc::GateOps.AGateCall)
     push!(circ.circ_ops, gc);
 end
 
-
-"""
-    to_string(circ::Circ)
-
-Convert the circuit to a string intermediate representation
-"""
-function _to_string(circ::Circ)
-    circ_buffer = IOBuffer()
-    for (k,v) in circ.gate_map
-        write(circ_buffer, )
-    end
-    for c in circ.circ_ops
-    end
-end
-
-function _to_file!(circ::Circ, file_name::String="circuit.out", file_ext::String="circuit.err")
-    open(file_name * file_ext, "a") do io
-        println(io, String(take!(circ.circ_buffer)))
-    end
-end
-
-function _dump(file_name::String)
-    open(file_name, "a") do io
-        println(io, circ_buffer.data)
-    end
-end
 
 Base.show(io::IO, circ::Circ) = print(io, "$(circ.num_qubits) qubits with $(circ.circ_ops.len) gate-calls using $(length(circ.gate_set)) unique gates.")
 Base.show(io::IO, m::MIME"text/plain", circ::Circ) = print(io, "$(circ.num_qubits) qubits with $(circ.circ_ops.len) gate-calls using $(length(circ.gate_set)) unique gates.")

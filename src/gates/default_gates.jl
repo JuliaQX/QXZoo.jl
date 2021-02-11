@@ -22,7 +22,7 @@ module GateSymbols
     x = GateOps.GateSymbol(:x)
     y = GateOps.GateSymbol(:y)
     z = GateOps.GateSymbol(:z)
-    H = GateOps.GateSymbol(:h)
+    h = GateOps.GateSymbol(:h)
     s = GateOps.GateSymbol(:z, 1, false)
     t = GateOps.GateSymbol(:z, 2, false)
     I = GateOps.GateSymbol(:I)
@@ -108,7 +108,7 @@ QXZoo.GateOps.GateCall1(QXZoo.GateOps.GateSymbol(:h, 0, false), 0)
 ```
 """
 function h(q_target::Int)
-    return GateOps.GateCall1(GateSymbols.H, q_target)
+    return GateOps.GateCall1(GateSymbols.h, q_target)
 end
 
 

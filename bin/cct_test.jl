@@ -1,8 +1,8 @@
 using QXZoo
 using QXZoo.Circuit
 
-num_qubits =  parse(Int, ARGS[1])
-test_set =  parse(Int, ARGS[2])
+num_qubits = parse(Int, ARGS[1])
+test_set = parse(Int, ARGS[2])
 
 ###############################################################################
 #                               Utility functions
@@ -50,11 +50,6 @@ end
 #                          Sample test-cases
 ###############################################################################
 
-# Must be called first to populate gate-cache
-QXZoo.GateMap.init_cache()
-
-###############################################################################
-
 if test_set === 0 # Simple circuit creation
 
     # Create a Circ type
@@ -82,9 +77,9 @@ if test_set === 0 # Simple circuit creation
 
     # Gates can also be added using '+'
     @time for i=1:10000
-        cct + cz12
-        cct + cz21
-        cct + cz12
+        cct << cz12
+        cct << cz21
+        cct << cz12
     end
     println("Gates:=", cct.circ_ops.len, " ", cct)
 
@@ -96,7 +91,7 @@ elseif test_set === 1 # Default NCU
 
     ctrl = collect(range(0, length=num_qubits-1  ) ) 
     tgt = num_qubits-1
-    QXZoo.NCU.apply_ncu!(cct, ctrl, [], tgt, QXZoo.GateOps.GateSymbol(:x))
+    QXZoo.NCU.apply_ncu!(cct, ctrl, [], tgt, QXZoo.GateOps.GateSymbol(:c_x))
 
     if num_qubits == 3
         @assert cct.circ_ops.len == ncu_gate_calls_default(num_qubits-1)
@@ -113,7 +108,7 @@ elseif test_set === 2 # Aux-assisted NCU
     ctrl = collect(range(0, length=convert(Int, (num_qubits+1)/2  ))) 
     aux =  collect(range( convert(Int, (num_qubits+1)/2+1), stop=num_qubits-1))
     tgt = convert(Int, maximum(ctrl)+1 )
-    QXZoo.NCU.apply_ncu!(cct, ctrl, aux ,tgt, QXZoo.GateOps.GateSymbol(:x))
+    QXZoo.NCU.apply_ncu!(cct, ctrl, aux ,tgt, QXZoo.GateOps.GateSymbol(:c_x))
     println(cct)
 
 ###############################################################################

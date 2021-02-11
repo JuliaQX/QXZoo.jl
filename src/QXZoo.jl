@@ -12,8 +12,6 @@ include("gates/gate_map.jl")
 include("gates/composite_gates.jl")
 
 include("circuits/circuit.jl")
-include("translators/Translator.jl")
-include("translators/Transpiler.jl")
 include("algorithms/Algorithms.jl")
 
 @reexport using QXZoo.GateMap

@@ -12,10 +12,19 @@ using Random
 """
     lin_idx(i,j)
 
-Linearise 2D indices to 1D as [i,j] -> i*(max_i-1) + j
+Linearise 2D indices to 1D as [j,i] -> (i-1)*max_j + j
 """
-function lin_idx(i, j, max_i)
-    return i*(max_i-1) + j
+function lin_idx(i, j, max_j)
+    return (i-1)*max_j + j
+end
+
+"""
+    grid_idx(i, i_stride, i_max)
+
+Turn 1D linear indices to 2D as [j,i] -> (i-1)*max_i + j
+"""
+function grid_idx(i, i_stride)
+    return ( (i-1)%i_stride +1, Integer(floor((i-1)/i_stride)+1),)
 end
 
 "Struct to represent a random quantum circuit"
@@ -145,7 +154,7 @@ function create_RQC(rows::Int, cols::Int, depth::Int,
 
     # The rqc starts with a layer of hadamard gates applied to all qubits.
     for i in 1:rqc.n, j in 1:rqc.m
-        rqc.circ << DefaultGates.h((i-1)*rqc.n + j)
+        rqc.circ << DefaultGates.h(lin_idx(i, j, rqc.m))
     end
 
     # Get the patterns to apply two qubit gates in.
@@ -166,29 +175,28 @@ function create_RQC(rows::Int, cols::Int, depth::Int,
 
             # Apply the single qubit gates
             qubits_hit = reduce(vcat, gate_patterns[i])
-            for i in 1:rqc.n, j in 1:rqc.m
-                if !([i, j] in qubits_hit)
-                    gate = random_gate!(rqc, i, j, rng)
+            for idx in 1:rqc.n, jdx in 1:rqc.m
+                if !([idx, jdx] in qubits_hit)
+                    gate = random_gate!(rqc, idx, jdx, rng)
                     if gate !== nothing
-                        rqc.circ << DefaultGates.u(gate, lin_idx(i, j, rqc.n))
+                        rqc.circ << DefaultGates.u(gate, lin_idx(idx, jdx, rqc.m))
                     end
                 end
             end
 
             # Update rqc with which qubits were hit by a two qubit gate
             # and so may be hit by a single qubit gate next round.
-            for ((i, j), (u, v)) in gate_patterns[i]
-                rqc.next_gate[i, j] = abs(rqc.next_gate[i, j])
+            for ((idx, jdx), (u, v)) in gate_patterns[i]
+                rqc.next_gate[idx, jdx] = abs(rqc.next_gate[idx, jdx])
                 rqc.next_gate[u, v] = abs(rqc.next_gate[u, v])
             end
         end
 
-        #rqc.circ.barrier()
     end
 
     if final_Hadamard_layer
         for i in 1:rqc.n, j in 1:rqc.m
-            rqc.circ << DefaultGates.h((i-1)*rqc.n + j)
+            rqc.circ << DefaultGates.h(lin_idx(i, j, rqc.m))
         end
     end
 
