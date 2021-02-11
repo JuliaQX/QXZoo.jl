@@ -6,26 +6,15 @@ To apply the Grover search algorithm, we require additional functionalities in t
 ## API
 ### oracle.jl
 ```@docs
-QXZoo.Oracle.bitstring_ncu!(cct::QXZoo.Circuit.Circ, bitstring::Integer, ctrl_indices::Vector, tgt_idx, U::QXZoo.GateOps.GateSymbol)
-QXZoo.Oracle.bitstring_ncu!(cct::QXZoo.Circuit.Circ, bitstring::Integer, ctrl_indices::Vector, aux_indices::Vector, tgt_idx, U::QXZoo.GateOps.GateSymbol)
-QXZoo.Oracle.bitstring_phase_oracle!(cct::QXZoo.Circuit.Circ, bitstring::Integer, ctrl_indices::Vector, tgt_idx)
-QXZoo.Oracle.bitstring_phase_oracle!(cct::QXZoo.Circuit.Circ, bitstring::Integer, ctrl_indices::Vector, aux_indices::Vector, tgt_idx)
-```
-
-### diffusion.jl
-```@docs
-QXZoo.Diffusion.apply_diffusion!(cct::QXZoo.Circuit.Circ, ctrl_indices::Vector, tgt_index)
-QXZoo.Diffusion.apply_diffusion!(cct::QXZoo.Circuit.Circ, ctrl_indices::Vector, aux_indices::Vector, tgt_index)
-```
-
-```@docs
+QXZoo.Grover.bitstring_ncu!(cct::QXZoo.Circuit.Circ, bitstring::Integer, ctrl_indices::Vector, tgt_idx, U::QXZoo.GateOps.GateSymbol, aux_indices::Vector=Int[])
+QXZoo.Grover.bitstring_phase_oracle!(cct::QXZoo.Circuit.Circ, bitstring::Integer, ctrl_indices::Vector, tgt_idx::Int, aux_indices::Vector=Int[])
+QXZoo.Grover.apply_diffusion!(cct::QXZoo.Circuit.Circ, ctrl_indices::Vector, tgt_index::Int, aux_indices::Vector=Int[])
 QXZoo.Grover.run_grover!(cct::QXZoo.Circuit.Circ, qubit_indices::Vector, state::Integer)
 QXZoo.Grover.mark_state!(cct::QXZoo.Circuit.Circ, state::Integer, qubit_indices::Vector)
 QXZoo.Grover.apply_grover_iteration!(cct::QXZoo.Circuit.Circ, qubit_indices::Vector)
 QXZoo.Grover.state_init!(cct::QXZoo.Circuit.Circ, qubit_indices::Vector)
 QXZoo.Grover.calc_iterations(num_states::Integer)
 ```
-
 
 ## Example 
 To use the Grover module, we provide example code below to search for a state in a 5-qubit quantum register marked by bit-pattern 11 (0b01011).

@@ -1,8 +1,9 @@
 using QXZoo
 using Test
+using TestSetExtensions
 
 @testset "QXZoo.jl" begin
     
-@test 1==1
+@includetests ARGS
 
 end
