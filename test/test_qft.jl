@@ -47,8 +47,8 @@
 
         QXZoo.QFT.apply_iqft!(cct1, collect(1:num_qubits))
 
-        cct2 << CompositeGates.swap(2,4)
         cct2 << CompositeGates.swap(1,5)
+        cct2 << CompositeGates.swap(2,4)
 
         cct2 << DefaultGates.h(5)
         cct2 << DefaultGates.c_r_phase(4, 5, -π/2)

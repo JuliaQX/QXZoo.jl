@@ -1,7 +1,7 @@
 # DefaultGates
 
 ## DefaultGates.GateSymbols
-Here we store symbols for the gates available in DefaultGates, and generator functions for parameteric variants of these gates. This allos us to track the mappings as to be used by the gate type hierarchy and architecture.
+Here we store symbols for the gates available in DefaultGates, and generator functions for parameteric variants of these gates. This allows us to track the mappings as to be used by the gate type hierarchy and architecture.
 
 
 ## Commonly used gates

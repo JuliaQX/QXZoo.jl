@@ -8,9 +8,6 @@ The general principle follows the work of Barenco *et al.*, Phys. Rev. A 52, 345
 
 ```@docs
 QXZoo.NCU.apply_ncu!(circuit::QXZoo.Circuit.Circ, q_ctrl::Vector, q_aux::Vector, q_tgt, U::QXZoo.GateOps.GateSymbol)
-QXZoo.NCU.init_intermed_gates(circ::QXZoo.Circuit.Circ, num_ctrl::Union{Nothing, Int})
-QXZoo.NCU.register_gate(circ::QXZoo.Circuit.Circ, U::QXZoo.GateOps.GateSymbol, gate_f::Function)
-QXZoo.NCU.gen_intermed_gates(ctrl_depth::Int, U::QXZoo.GateOps.GateSymbol)
 QXZoo.NCU.get_intermed_gate(U::QXZoo.GateOps.GateSymbol)
 ```
 
@@ -21,18 +18,18 @@ To use the NCU module, we provide example code below to apply an n-controlled Pa
 ```@example
 using QXZoo
 
-# Set 5-qubit limit on circuit
+# Set 10-qubit limit on circuit
 num_qubits = 10
 
 # Create Pauli-Z gate-label for application
-gate_z = QXZoo.DefaultGates.GateSymbols.z
+gate_z = QXZoo.DefaultGates.GateSymbols.c_z
 
 # Create empty circuit with qiven qubit count
 cct = QXZoo.Circuit.Circ(num_qubits)
 
-ctrl = collect(range(0, length=num_qubits-1  ) ) 
+ctrl = collect(range(1, length=num_qubits  ) ) 
 aux = []
-tgt = num_qubits-1
+tgt = num_qubits
 
 for i in ctrl
     QXZoo.Circuit.add_gatecall!(cct, QXZoo.DefaultGates.x(i) )
@@ -56,15 +53,15 @@ num_qubits = 19
 
 cct = QXZoo.Circuit.Circ(num_qubits)
 
-ctrl = collect(range(0, length=convert(Int, (num_qubits+1)/2  ))) 
-aux =  collect(range( convert(Int, (num_qubits+1)/2+1), stop=num_qubits-1))
-tgt = convert(Int, maximum(ctrl)+1 )
+ctrl = collect(1:10)
+tgt = 11
+aux =  collect(11:19)
 
 for i in ctrl
     cct << QXZoo.DefaultGates.x(i)
 end
 
-QXZoo.NCU.apply_ncu!(cct, ctrl, aux, tgt, QXZoo.GateOps.GateSymbol(:z))
+QXZoo.NCU.apply_ncu!(cct, ctrl, aux, tgt, DefaultGates.GateSymbols.c_z)
 
 println(cct)
 ```

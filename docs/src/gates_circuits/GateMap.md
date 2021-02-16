@@ -30,6 +30,8 @@ QXZoo.GateMap.x()
 QXZoo.GateMap.y()
 QXZoo.GateMap.z()
 QXZoo.GateMap.h()
+QXZoo.GateMap.s()
+QXZoo.GateMap.t()
 QXZoo.GateMap.I()
 
 QXZoo.GateMap.r_x(θ::Number)
@@ -40,4 +42,9 @@ QXZoo.GateMap.r_phase(θ::Number)
 QXZoo.GateMap.c_x()
 QXZoo.GateMap.c_y()
 QXZoo.GateMap.c_z()
+
+QXZoo.GateMap.c_r_x(θ::Number)
+QXZoo.GateMap.c_r_y(θ::Number)
+QXZoo.GateMap.c_r_z(θ::Number)
+QXZoo.GateMap.c_r_phase(θ::Number)
 ```
