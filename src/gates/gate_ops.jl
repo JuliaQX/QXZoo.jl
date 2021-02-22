@@ -91,5 +91,11 @@ end
 ###############################################################################
 Base.:sqrt(gs::GateSymbol) = GateSymbol(gs.label, gs.rt_depth+1, gs.is_adj)
 Base.:adjoint(gs::GateSymbol) = GateSymbol(gs.label, gs.rt_depth, ~gs.is_adj)
+Base.:adjoint(gs::GateSymbolP) = GateSymbolP(gs.label, gs.rt_depth, ~gs.is_adj, -gs.param)
+
+Base.:sqrt(gc::GateCall1) = GateCall1(sqrt(gc.gate_symbol), gc.target)
+Base.:adjoint(gc::GateCall1) = GateCall1(adjoint(gc.gate_symbol), gc.target)
+Base.:sqrt(gc::GateCall2) = GateCall2(sqrt(gc.gate_symbol), gc.ctrl, gc.target, gc.base_gate)
+Base.:adjoint(gc::GateCall2) = GateCall2(adjoint(gc.gate_symbol), gc.ctrl, gc.target, gc.base_gate)
 
 end
