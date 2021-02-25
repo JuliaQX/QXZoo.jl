@@ -1,5 +1,5 @@
 push!(LOAD_PATH,"./src/")
-using Documenter, QXZoo
+using Documenter, QXZoo, Random
 
 makedocs(
     modules = [QXZoo],
@@ -16,9 +16,17 @@ makedocs(
         "Home" => "index.md",
         "Examples" => "examples.md",
         "Manual" => Any[
-            "Gates" => Any["gates_circuits/GateOps.md", "gates_circuits/DefaultGates.md", "gates_circuits/GateMap.md"],
+            "Gates" => Any[ "gates_circuits/GateOps.md", 
+                            "gates_circuits/DefaultGates.md", 
+                            "gates_circuits/CompositeGates.md", 
+                            "gates_circuits/GateMap.md",
+                        ],
             "Circuits" => "gates_circuits/circuits.md",
-            "Algorithms" => Any[ "NCU" => "algo/ncu.md", "Grover" => "algo/grover.md" ],
+            "Algorithms" => Any[    "NCU" => "algo/ncu.md", 
+                                    "Grover" => "algo/grover.md",
+                                    "QFT" => "algo/qft.md",
+                                    "RQC" => "algo/rqc.md"
+                                ],
         ],
     ]
 )

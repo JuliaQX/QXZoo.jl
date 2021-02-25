@@ -5,6 +5,8 @@ using QXZoo.DefaultGates
 using QXZoo.GateOps
 using Random
 
+export create_RQC
+
 # *************************************************************************** #
 #                              RQC functions
 # *************************************************************************** #
@@ -50,7 +52,11 @@ struct RQC_DS
     single_qubit_gates::Dict{Int, AGateSymbol}
 end
 
+"""
+    RQC creation structure.
 
+Holds the circuit, and generator datatypes
+"""
 function RQC_DS(n::Int, m::Int)
     RQC_DS(n, m, Circuit.Circ(n*m), -ones(Int, n, m),
         Dict(1=>DefaultGates.GateSymbols.t, 2=>sqrt(DefaultGates.GateSymbols.x), 3=>sqrt(DefaultGates.GateSymbols.y)) )

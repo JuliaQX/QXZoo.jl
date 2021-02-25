@@ -6,7 +6,7 @@ using QXZoo.DefaultGates
 
 
 """
-    pauli_string(θ::Number, pauli_gates::Vector{GateCall1})
+    apply_pauli_string(θ::Number, pauli_gates::Vector{GateCall1})
 
 Create a circuit representating a given exp Pauli string (eg exp(-i0.5*X*X*Y*Y))
 
