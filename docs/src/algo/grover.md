@@ -21,7 +21,7 @@ To use the Grover module, we provide example code below to search for a state in
 ```@example 1
 using QXZoo
 
-# Set 6-qubit limit on circuit
+# Set 10-qubit limit on circuit
 num_qubits = 10
 
 # Set bit-pattern to 11 (0b01011)
@@ -41,8 +41,8 @@ Similarly, for an optimised variant of the same operations using more qubits:
 ```@example 2
 using QXZoo
 
-# Set 6-qubit limit on circuit
-num_qubits = 19
+# Set 10-qubit limit on Grover circuit (aux assisted)
+num_qubits = 17
 
 qubits_range = 1:Int((num_qubits+1)/2) + 1 
 aux_range = Int((num_qubits+1)/2 + 2):num_qubits
