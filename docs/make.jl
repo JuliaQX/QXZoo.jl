@@ -1,18 +1,17 @@
-push!(LOAD_PATH,"./src/")
+push!(LOAD_PATH,"../")
 using Documenter, QXZoo, Random
 
-makedocs(
-    modules = [QXZoo],
+makedocs(;
+    modules=[QXZoo],
     authors="QuantEx team",
-    clean = false,
     repo="https://github.com/JuliaQX/QXZoo.jl/blob/{commit}{path}#L{line}",
-    sitename = "QXZoo.jl",
+    sitename="QXZoo.jl",
     format=Documenter.HTML(;
         prettyurls=get(ENV, "CI", "false") == "true",
         canonical="https://JuliaQX.github.io/QXZoo.jl",
         assets=String[],
     ),
-    pages = Any[
+    pages=Any[
         "Home" => "index.md",
         "Examples" => "examples.md",
         "Manual" => Any[
@@ -30,6 +29,6 @@ makedocs(
         ],
     ]
 )
-deploydocs(
-    repo = "github.com/JuliaQX/QXZoo.jl.git",
+deploydocs(;
+    repo="github.com/JuliaQX/QXZoo.jl",
 )
