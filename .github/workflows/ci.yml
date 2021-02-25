@@ -49,16 +49,18 @@ jobs:
         with:
           version: '1'
       - run: |
-          julia --project=docs -e '
+          julia --project -e '
             using Pkg
-            Pkg.develop(PackageSpec(path=pwd()))
-            Pkg.instantiate()'
+            Pkg.instantiate()
+            Pkg.add("Documenter")
+            Pkg.add("DataFrames")
+            Pkg.add("Latexify")'            
       - run: |
-          julia --project=docs -e '
+          julia --project -e '
             using Documenter: doctest
-            using QXSim
-            doctest(QXSim)'
-      - run: julia --project=docs docs/make.jl
+            using QXZoo
+            doctest(QXZoo)'
+      - run: julia --project docs/make.jl
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DOCUMENTER_KEY: ${{ secrets.DOCUMENTER_KEY }}
