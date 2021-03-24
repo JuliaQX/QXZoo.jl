@@ -35,6 +35,33 @@ using LinearAlgebra
             end
         end
 
+        @testset "Test circuit IO" begin
+            cct = QXZoo.Circuit.Circ(5)
+            
+            cct << QXZoo.DefaultGates.x(1)
+            cct << QXZoo.DefaultGates.x(2)
+            cct << QXZoo.DefaultGates.h(3)
+            cct << QXZoo.DefaultGates.c_z(3,1)
+
+            QXZoo.Circuit.export_circuit(cct, "test_circ")
+            @test isfile("test_circ.jld2") === true
+            
+            data = QXZoo.Circuit.load_circuit("test_circ")
+            cct2 = data["circuit"]
+
+            @test cct.circ_ops.len == cct2.circ_ops.len
+            @test cct.gate_set == cct2.gate_set
+
+            h1 = cct.circ_ops.head
+            h2 = cct2.circ_ops.head
+
+            for i in 1:cct.circ_ops.len
+                @test h1.data === h2.data
+                h1 = h1.next
+                h2 = h2.next
+            end
+        end
+
         @testset "Test defined gateset" begin
             gates = Set([QXZoo.DefaultGates.GateSymbols.x, QXZoo.DefaultGates.GateSymbols.h, QXZoo.DefaultGates.GateSymbols.r_phase(pi/5)])
             cct = QXZoo.Circuit.Circ(5, gates)
