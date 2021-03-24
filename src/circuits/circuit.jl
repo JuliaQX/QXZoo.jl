@@ -4,12 +4,13 @@ using DataStructures
 using QXZoo.GateOps
 using QXZoo.GateMap
 using QXZoo.DefaultGates
+using FileIO
 
 include("utils/DLList.jl")
 using .DS
 
-export append!
-export push!
+export append!, push!
+export export_circuit, load_circuit
 
 # =========================================================================== #
 #                  Circuit generation functions and structures
@@ -145,6 +146,25 @@ Base.:<<(circ::Circ, gc::GateOps.GateCall2) = add_gatecall!(circ, gc::GateOps.Ga
 Base.:<<(circ1::Circ, circ2::Circ) = append!(circ1::Circ, circ2::Circ)
 
 # =========================================================================== #
+
+"""
+    export_circuit(cct::Circ, file_name::String="circuit")
+
+Exports the circuit to disk as a JLD2 file.
+"""
+function export_circuit(cct::Circ, file_name::String="circuit")
+    save("$(file_name).jld2", Dict{String, Circ}("circuit"=>cct))
+end
+
+"""
+    load_circuit(file_name::String="circuit")
+
+Loads the circuit at `file_name.jld2` from disk.
+"""
+function load_circuit(file_name::String="circuit")
+    load("$(file_name).jld2")
+end
+
 # =========================================================================== #
 
 end

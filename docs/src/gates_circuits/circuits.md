@@ -17,6 +17,9 @@ QXZoo.Circuit.num_qubits(circuit::QXZoo.Circuit.Circ)
 
 QXZoo.Circuit.add_gatecall!(circ::QXZoo.Circuit.Circ, gc::QXZoo.GateOps.GateCall1)
 QXZoo.Circuit.add_gatecall!(circ::QXZoo.Circuit.Circ, gc::QXZoo.GateOps.GateCall2)
+
+QXZoo.Circuit.export_circuit(cct::QXZoo.Circuit.Circ, file_name::String="circuit")
+QXZoo.Circuit.load_circuit(file_name::String="circuit")
 ```
 
 ```@example
@@ -35,4 +38,10 @@ end
 cct << QXZoo.DefaultGates.z(10)
 
 println(cct)
+
+# Save circuit to disk
+QXZoo.Circuit.export_circuit(cct)
+
+#Reload circuit from disk
+QXZoo.Circuit.load_circuit(cct)
 ```
