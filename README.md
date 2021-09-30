@@ -13,8 +13,10 @@ Creates a backend-agnostic algorithm and circuit composition framework,
 which can subsequently be used to generate quantum algorithm representations
 for running on a variety of different backends.
 
-Integrates with QXRun.jl to perform full end-to-end demonstrations
-of quantum circuit simulation as part of the QuantEx project.
+Integrates with QXTools.jl to perform full end-to-end demonstrations
+of quantum circuit simulation as part of the QuantEx project. It was developed 
+as part of the QuantEx project, one of the individual software projects of WP8 
+of PRACE 6IP.
 
 ## Installation
 
